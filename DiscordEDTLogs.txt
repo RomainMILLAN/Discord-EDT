@@ -1,0 +1,5 @@
+
+[22/03/2023 13:27:41] - Skytor Studio [V2] - DISCORD SENTRY/EDT:white_check_mark: Emploi du temp refresh (`infoq5`) (*Success*)
+[22/03/2023 13:27:51] - Skytor Studio [V2] - DISCORD SENTRY/EDT:x: Aucun groupe sélectionner et aucun groupe dans les rôles (*Failed*)
+[22/03/2023 13:27:51] - Skytor Studio [V2] - DISCORD SENTRY/EDT:x: Aucun cour pour cette journée (`22/03/2023`) (*Failed*)
+[22/03/2023 13:27:56] - Skytor Studio [V2] - DISCORD SENTRY/EDT:white_check_mark: Affichage liste des cours (`22/03/2023`),  (*Success*)

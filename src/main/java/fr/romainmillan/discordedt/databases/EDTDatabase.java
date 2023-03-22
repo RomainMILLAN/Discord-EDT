@@ -69,6 +69,22 @@ public class EDTDatabase {
 
         return resultat;
     }
+
+    public static Cour getNextCour(String date, String heure, String groupe){
+        final String sql = "SELECT * FROM DB_EDT WHERE date='"+date+"' AND heureDebut > '"+heure+"' AND groupe='"+groupe+"' ORDER BY date,heureDebut ASC LIMIT 1";
+
+        try {
+            ResultSet ResultatSQL = DatabaseConnection.getInstance().getStatement().executeQuery(sql);
+
+            while(ResultatSQL.next()){
+                return new Cour(ResultatSQL.getInt("id"), ResultatSQL.getString("groupe"), ResultatSQL.getString("name"), ResultatSQL.getString("salle"), ResultatSQL.getString("professeur"), ResultatSQL.getString("heureDebut"), ResultatSQL.getString("heureFin"), ResultatSQL.getString("date"), ResultatSQL.getString("information"));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return null;
+    }
     /*
     AJOUT
      */

@@ -1,6 +1,7 @@
 package fr.romainmillan.discordedt;
 
 import fr.romainmillan.discordedt.commands.commandEDT;
+import fr.romainmillan.discordedt.commands.commandNotification;
 import fr.romainmillan.discordedt.manager.CommandManager;
 import fr.romainmillan.discordedt.manager.Console;
 import fr.romainmillan.discordedt.messages.AppMessages;
@@ -12,10 +13,13 @@ import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.dv8tion.jda.api.utils.cache.CacheFlag;
 
+import java.util.ArrayList;
+
 public class App {
     final public static String urlLinkToBDD = "jdbc:sqlite:DiscordEDT.db";
     private static JDA jda;
     private static boolean debugMode = false;
+    public static ArrayList<String> notificationCurrent = new ArrayList<>();
 
     /**
      * Get the token of the bot and run it.
@@ -62,6 +66,7 @@ public class App {
         Console.getInstance().toConsole(AppMessages.JDA_BOT_READY.getMessage(), ConsoleState.INFO);
 
         jda.addEventListener(new commandEDT());
+        jda.addEventListener(new commandNotification());
 
         /*
         Update  all slash commands

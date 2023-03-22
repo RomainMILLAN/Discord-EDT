@@ -21,6 +21,8 @@ public class CommandManager {
         OptionData edtInfo = new OptionData(OptionType.STRING, "information", EDTMessages.DESCRIPTION_EDT_INFO_ARGUMENT.getMessage()).setRequired(false);
         commandData.add(Commands.slash("edt", EDTMessages.DESCRIPTION_EDT_COMMAND.getMessage()).addOptions(edtInfo).addOptions(edtAction).addOptions(edtId).addOptions(edtGroupe).addOptions(edtDate));
 
+        commandData.add(Commands.slash("notification", EDTMessages.DESCRIPTION_NOTIFICATION_COMMAND.getMessage()).addOptions(edtGroupe));
+
         return commandData;
     }
 

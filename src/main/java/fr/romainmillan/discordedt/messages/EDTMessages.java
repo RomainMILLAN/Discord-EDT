@@ -16,7 +16,8 @@ public enum EDTMessages {
     SHOW_COUR("Affichage de cour"),
     NO_INFORMATION_ARGUMENT("Aucune information rentré en parametre"),
     NO_ID_ARGUMENT("Aucun identifiant renseigner"),
-    INFORMATION_UPDATE("Information du cour mise à jour");
+    INFORMATION_UPDATE("Information du cour mise à jour"),
+    DESCRIPTION_NOTIFICATION_COMMAND("Permet d'avoir les notification des cours");
 
     private String message;
 

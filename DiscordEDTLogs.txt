@@ -32,3 +32,6 @@
 [23/03/2023 06:50:53] - Skytor Studio [V2] - DISCORD SENTRY/EDT:white_check_mark: Notification de cour pour le groupe `infoq5` (*Success*)
 [23/03/2023 06:51:05] - Skytor Studio [V2] - DISCORD SENTRY/EDT:white_check_mark: Affichage liste des cours (`23/03/2023`),  (*Success*)
 [23/03/2023 06:51:11] - Skytor Studio [V2] - DISCORD SENTRY/EDT:x: Aucun cour pour cette journée (`23/03/2023`) (*Failed*)
+[23/03/2023 07:03:27] - Skytor Studio [V2] - DISCORD SENTRY/EDT:white_check_mark: Notification de cour pour le groupe `infoq5` (*Success*)
+[23/03/2023 07:08:10] - Skytor Studio [V2] - DISCORD SENTRY/EDT:white_check_mark: Notification de cour pour le groupe `infoq5` (*Success*)
+[23/03/2023 07:10:14] - Skytor Studio [V2] - DISCORD SENTRY/EDT:white_check_mark: Notification de cour pour le groupe `infoq5` (*Success*)

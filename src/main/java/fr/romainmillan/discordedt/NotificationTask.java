@@ -4,6 +4,7 @@ import fr.romainmillan.discordedt.commands.commandNotification;
 import fr.romainmillan.discordedt.databases.EDTDatabase;
 import fr.romainmillan.discordedt.embedCrafter.EDTCrafter;
 import fr.romainmillan.discordedt.manager.EDTConfiguration;
+import fr.romainmillan.discordedt.manager.EDTService;
 import fr.romainmillan.discordedt.manager.NotificationService;
 import fr.romainmillan.discordedt.object.Cour;
 import net.dv8tion.jda.api.entities.Role;
@@ -38,15 +39,7 @@ public class NotificationTask extends TimerTask {
 
 
         if(notificationSend){
-            Cour next = EDTDatabase.getNextCour(cour.getDate(), cour.getHeureFin(), cour.getGroupe());
-            if(next == null){
-                String dateCour = cour.getDate();
-                String[] dateCourSplit = dateCour.split("/");
-                int dateCourPlus = Integer.parseInt(dateCourSplit[0])+1;
-                String dateNext = dateCourPlus+"/"+dateCourSplit[1]+"/"+dateCourSplit[2];
-
-                next = EDTDatabase.getNextCour(dateNext, "00:00", cour.getGroupe());
-            }
+            Cour next = EDTService.getNextCour(cour.getDate(), cour.getHeureFin(), cour.getGroupe());
 
             if(idrNotification != null)
                 App.getJda().getTextChannelById(EDTConfiguration.IDC_NOTIFICATION).sendMessage(idrNotification.getAsMention() + " > Prochain cour **" + next.getName() + "**").queue();

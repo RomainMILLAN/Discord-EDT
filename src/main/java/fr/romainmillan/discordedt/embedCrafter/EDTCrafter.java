@@ -49,9 +49,10 @@ public class EDTCrafter extends EmbedCrafter{
         embed.addField("Groupe: ", cour.getGroupe(), true);
         embed.addField("Professeur: ", cour.getProfesseur(), true);
 
-        if(!cour.getInformation().equals("")){
-            embed.addField("Information: ", cour.getInformation(), true);
-        }
+        String information = cour.getInformation();
+        if(!cour.getInformation().equals("") && !cour.getInformation().equals(" ") && cour.getInformation() != null && cour.getInformation().length() > 1)
+            embed.addField("Information: ", information, true);
+            //information = "NO INFORMATION";
 
         embed.setColor(colorEDT);
         embed.setFooter(getFooterEmbed());

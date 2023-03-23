@@ -11,7 +11,7 @@ public class NotificationService {
     public static void nextTimer(String groupe){
 
         Cour current = EDTService.getNextCourToday(groupe);
-        //Cour current = new Cour(1, "infoq5", "Test de cour", "INFO A2", "NADAL CYRILLE", "07:11", "16:30", "23/03/2023", "Test");
+        //Cour current = new Cour(1, "infoq5", "Test de cour", "INFO A2", "NADAL CYRILLE", "08:59", "16:30", "23/03/2023", "");
 
         if(current != null){
             setNotificationToCour(current);

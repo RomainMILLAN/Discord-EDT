@@ -30,9 +30,7 @@ public class Console {
      */
     public void toConsole(String message, ConsoleState state){
         if(state == ConsoleState.DEBUG){
-            if(App.isDebugMode()){
-                System.out.println(ConsoleColor.BLACK_BACKGROUND_BRIGHT.getConsoleColor() + "[" + DateHourFormatter.getInstance().getDateAndHourTimeFormat() + "]" +  ConsoleColor.RESET.getConsoleColor() + " - " + this.getStateFinalConsole(state) + " - " + message);
-            }
+            System.out.println(ConsoleColor.BLACK_BACKGROUND_BRIGHT.getConsoleColor() + "[" + DateHourFormatter.getInstance().getDateAndHourTimeFormat() + "]" +  ConsoleColor.RESET.getConsoleColor() + " - " + this.getStateFinalConsole(state) + " - " + message);
         }else {
             System.out.println(ConsoleColor.BLACK_BACKGROUND_BRIGHT.getConsoleColor() + "[" + DateHourFormatter.getInstance().getDateAndHourTimeFormat() + "]" +  ConsoleColor.RESET.getConsoleColor() + " - " + this.getStateFinalConsole(state) + " - " + message);
         }

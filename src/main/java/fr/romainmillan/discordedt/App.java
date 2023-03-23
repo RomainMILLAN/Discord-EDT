@@ -1,7 +1,9 @@
 package fr.romainmillan.discordedt;
 
+import fr.romainmillan.discordedt.commands.commandConfiguration;
 import fr.romainmillan.discordedt.commands.commandEDT;
 import fr.romainmillan.discordedt.commands.commandNotification;
+import fr.romainmillan.discordedt.commands.commandSetup;
 import fr.romainmillan.discordedt.manager.CommandManager;
 import fr.romainmillan.discordedt.manager.Console;
 import fr.romainmillan.discordedt.messages.AppMessages;
@@ -18,7 +20,7 @@ import java.util.ArrayList;
 public class App {
     final public static String urlLinkToBDD = "jdbc:sqlite:DiscordEDT.db";
     private static JDA jda;
-    private static boolean debugMode = false;
+    public static String idSudo = "";
     public static ArrayList<String> notificationCurrent = new ArrayList<>();
 
     /**
@@ -32,8 +34,8 @@ public class App {
         
         StringBuilder TOKEN = new StringBuilder();
         for(String argument : args){
-            if(argument.equalsIgnoreCase("--debug")){
-                debugMode = true;
+            if(argument.startsWith("--")){
+                idSudo = argument.substring(2);
             }else {
                 TOKEN.append(argument);
             }
@@ -68,6 +70,9 @@ public class App {
         jda.addEventListener(new commandEDT());
         jda.addEventListener(new commandNotification());
 
+        jda.addEventListener(new commandSetup());
+        jda.addEventListener(new commandConfiguration());
+
         /*
         Update  all slash commands
          */
@@ -86,14 +91,6 @@ public class App {
         for(Guild guild : jda.getGuilds()){
             jda.getGuildById(guild.getId()).updateCommands().addCommands(CommandManager.updateSlashCommands()).queue();
         }
-    }
-
-    /**
-     * Retourne le status du mode de débuggage
-     * @return
-     */
-    public static boolean isDebugMode() {
-        return debugMode;
     }
 
     /**

@@ -1,7 +1,8 @@
 package fr.romainmillan.discordedt.states;
 
 public enum PluginName {
-    EDT("EDT");
+    EDT("EDT"),
+    CONF("Configuration");
 
     private String message;
 

@@ -1,18 +1,16 @@
 package fr.romainmillan.discordedt.commands;
 
-import fr.romainmillan.discordedt.App;
+import fr.romainmillan.discordedt.databases.ConfigurationDatabase;
 import fr.romainmillan.discordedt.databases.EDTDatabase;
 import fr.romainmillan.discordedt.embedCrafter.EDTCrafter;
 import fr.romainmillan.discordedt.embedCrafter.EmbedCrafter;
 import fr.romainmillan.discordedt.embedCrafter.ErrorCrafter;
 import fr.romainmillan.discordedt.manager.Downloader;
-import fr.romainmillan.discordedt.manager.EDTConfiguration;
 import fr.romainmillan.discordedt.manager.Logger;
 import fr.romainmillan.discordedt.messages.EDTMessages;
 import fr.romainmillan.discordedt.object.Cour;
 import fr.romainmillan.discordedt.states.PluginName;
 import fr.romainmillan.discordedt.states.QueueAfterTimes;
-import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.fortuna.ical4j.data.CalendarBuilder;
@@ -41,21 +39,9 @@ public class commandEDT extends ListenerAdapter {
             if(e.getOption("action") != null)
                 action = e.getOption("action").getAsString();
 
-            String groupe = null;
+            String groupe = ConfigurationDatabase.getListGroupe().get(0);
             if(e.getOption("groupe") != null)
                 groupe = e.getOption("groupe").getAsString();
-            else{
-                Role infos6 = e.getGuild().getRoleById(EDTConfiguration.IDR_INFOS6);
-                Role infoq5 = e.getGuild().getRoleById(EDTConfiguration.IDR_INFOQ5);
-                if(e.getMember().getRoles().contains(infos6)){
-                    groupe = "infos6";
-                }else if(e.getMember().getRoles().contains(infoq5)){
-                    groupe = "infoq5";
-                }else {
-                    e.replyEmbeds(ErrorCrafter.errorEmbedCrafterWithDescription(":x: " + EDTMessages.NO_GROUP_SELECT.getMessage())).setEphemeral(true).queue((m) -> m.deleteOriginal().queueAfter(QueueAfterTimes.ERROR_TIME.getQueueAfterTime(), TimeUnit.SECONDS));
-                    Logger.getInstance().toLog(PluginName.EDT.getMessage(), EDTMessages.NO_GROUP_SELECT.getMessage(), e.getGuild(), e.getMember(), false);
-                }
-            }
 
             String id = null;
             if(e.getOption("id") != null)
@@ -70,9 +56,7 @@ public class commandEDT extends ListenerAdapter {
 
                             e.getChannel().sendMessageEmbeds(EmbedCrafter.embedCraftWithDescriptionAndColor(":white_check_mark: " + EDTMessages.EDT_REFRESH.getMessage() + " (`"+groupe+"`)", Color.GREEN)).queue((m) -> m.delete().queueAfter(QueueAfterTimes.SUCCESS_TIME.getQueueAfterTime(), TimeUnit.SECONDS));
                             Logger.getInstance().toLog(PluginName.EDT.getMessage(),  EDTMessages.EDT_REFRESH.getMessage() + " (`"+groupe+"`)", e.getGuild(), e.getMember(), true);
-                        } catch (IOException ex) {
-                            throw new RuntimeException(ex);
-                        } catch (ParserException ex) {
+                        } catch (IOException | ParserException ex) {
                             throw new RuntimeException(ex);
                         }
                     }else {
@@ -144,13 +128,7 @@ public class commandEDT extends ListenerAdapter {
         String url = "";
         String fileName = groupe + ".ics";
 
-        if(groupe.equalsIgnoreCase("infos6")){
-            url = EDTConfiguration.URL_INFOS6;
-        }else if(groupe.equalsIgnoreCase("infoq5")){
-            url = EDTConfiguration.URL_INFOQ5;
-        }else {
-            url = EDTConfiguration.URL_INFOQ5;
-        }
+        url = ConfigurationDatabase.getConfigurationByGroupe(groupe).getUrl();
 
         Downloader d = new Downloader(url, new File(fileName));
         d.run();

@@ -1,10 +1,10 @@
 package fr.romainmillan.discordedt.messages;
 
 public enum AppMessages {
-    ACTIVITY_PLAYING_BOT("Développement de Doxer in progress ..."),
-    JDA_BOT_INITIALIZING("Initialization de Doxer"),
-    JDA_BOT_CONNECTED("Doxer est connecté"),
-    JDA_BOT_READY("Doxer est prêt");
+    ACTIVITY_PLAYING_BOT("Discord-EDT UM"),
+    JDA_BOT_INITIALIZING("Initialization de Discord EDT"),
+    JDA_BOT_CONNECTED("Discord EDT est connecté"),
+    JDA_BOT_READY("Discord EDT est prêt");
 
     private String message;
 

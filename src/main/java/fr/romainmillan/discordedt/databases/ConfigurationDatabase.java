@@ -61,7 +61,7 @@ public class ConfigurationDatabase {
     }
 
     public static void updateConfiguration(Configuration conf){
-        final String sql = "UPDATE CONF SET nickgroupe='"+conf.getNickgroupe()+"', url='"+conf.getUrl()+"', roleid='"+conf.getRoleid()+"', rolenotifid='"+conf.getRolenotifid()+"', channelid='"+conf.getChannelId()+"'";
+        final String sql = "UPDATE CONF SET nickgroupe='"+conf.getNickgroupe()+"', url='"+conf.getUrl()+"', roleid='"+conf.getRoleid()+"', rolenotifid='"+conf.getRolenotifid()+"', channelid='"+conf.getChannelId()+"' WHERE groupe='"+conf.getGroupe()+"'";
 
         try {
             DatabaseConnection.getInstance().getStatement().execute(sql);

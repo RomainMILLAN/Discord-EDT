@@ -1,9 +1,6 @@
 package fr.romainmillan.discordedt;
 
-import fr.romainmillan.discordedt.commands.commandConfiguration;
-import fr.romainmillan.discordedt.commands.commandEDT;
-import fr.romainmillan.discordedt.commands.commandNotification;
-import fr.romainmillan.discordedt.commands.commandSetup;
+import fr.romainmillan.discordedt.commands.*;
 import fr.romainmillan.discordedt.manager.CommandManager;
 import fr.romainmillan.discordedt.manager.Console;
 import fr.romainmillan.discordedt.messages.AppMessages;
@@ -69,6 +66,7 @@ public class App {
 
         jda.addEventListener(new commandEDT());
         jda.addEventListener(new commandNotification());
+        jda.addEventListener(new commandNext());
 
         jda.addEventListener(new commandSetup());
         jda.addEventListener(new commandConfiguration());

@@ -24,8 +24,6 @@ public class ConfigurationDatabase {
             throw new RuntimeException(e);
         }
 
-        System.out.println(res);
-
         return res;
     }
 

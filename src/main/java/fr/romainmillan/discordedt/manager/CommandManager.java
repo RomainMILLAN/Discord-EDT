@@ -22,7 +22,10 @@ public class CommandManager {
         OptionData edtInfo = new OptionData(OptionType.STRING, "information", EDTMessages.DESCRIPTION_EDT_INFO_ARGUMENT.getMessage()).setRequired(false);
         commandData.add(Commands.slash("edt", EDTMessages.DESCRIPTION_EDT_COMMAND.getMessage()).addOptions(edtInfo).addOptions(edtAction).addOptions(edtId).addOptions(edtGroupe).addOptions(edtDate));
 
-        commandData.add(Commands.slash("notification", EDTMessages.DESCRIPTION_NOTIFICATION_COMMAND.getMessage()).addOptions(edtGroupe));
+        OptionData edtGroupeRequired = new OptionData(OptionType.STRING, "groupe", EDTMessages.DESCRIPTION_EDT_GROUPE_ARGUMENT.getMessage()).setRequired(true).addChoices(ConfigurationDatabase.getAllGroupeChoices());
+        commandData.add(Commands.slash("notification", EDTMessages.DESCRIPTION_NOTIFICATION_COMMAND.getMessage()).addOptions(edtGroupeRequired));
+
+        commandData.add(Commands.slash("next", EDTMessages.DESCRIPTION_NEXT_COMMAND.getMessage()).addOptions(edtGroupeRequired));
 
         OptionData groupeConf = new OptionData(OptionType.STRING, "groupe", ConfigurationMessages.DESCRIPTION_ARG_GROUPE.getMessages()).setRequired(true);
         commandData.add(Commands.slash("setup", ConfigurationMessages.DESCRIPTION_SETUP_COMMAND.getMessages()).addOptions(groupeConf));
@@ -31,6 +34,7 @@ public class CommandManager {
         OptionData confGroupe = new OptionData(OptionType.STRING, "groupe", ConfigurationMessages.DESCRIPTION_ARG_GRP.getMessages()).setRequired(true).addChoices(ConfigurationDatabase.getAllGroupeChoices());
         OptionData confText = new OptionData(OptionType.STRING, "texte", "texte pour l'action").setRequired(true);
         commandData.add(Commands.slash("configuration", ConfigurationMessages.DESCRIPTION_COMMAND.getMessages()).addOptions(confAction).addOptions(confGroupe).addOptions().addOptions(confText));
+
 
         return commandData;
     }

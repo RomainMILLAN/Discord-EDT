@@ -1,5 +1,7 @@
 package fr.romainmillan.discordedt.object;
 
+import fr.romainmillan.discordedt.databases.ConfigurationDatabase;
+
 public class Cour {
     private int id;
     private String groupe;
@@ -32,12 +34,13 @@ public class Cour {
     }
 
     public String getGroupeFr(){
-        if(groupe.equalsIgnoreCase("infos6"))
-            return "Informatique A1 | Sète";
-        else if(groupe.equalsIgnoreCase("infoq5"))
-            return "Informatique A2 | Sète";
-        else
-            return "Error";
+        Configuration conf = ConfigurationDatabase.getConfigurationByGroupe(groupe);
+
+        if(conf != null){
+            return conf.getNickgroupe();
+        }else {
+            return null;
+        }
     }
 
     public String getName() {

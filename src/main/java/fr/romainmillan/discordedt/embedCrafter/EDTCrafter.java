@@ -26,6 +26,25 @@ public class EDTCrafter extends EmbedCrafter{
         return embed.build();
     }
 
+    public static MessageEmbed craftNextCourEmbed(Cour cour){
+        EmbedBuilder embed = new EmbedBuilder();
+        embed.setTitle("\uD83D\uDCDA Prochain **Cour**");
+        embed.addField("Heure début: ", cour.getHeureDebut(), true);
+        embed.addField("Heure fin: ", cour.getHeureFin(), true);
+        embed.addField("Date: ", cour.getDate(), true);
+        embed.addField("Professeur: ", cour.getProfesseur(), true);
+        embed.addField("Groupe: ", cour.getGroupeFr(), true);
+        embed.addField("Identifiant: ", String.valueOf(cour.getId()), true);
+
+        if(!cour.getInformation().equals("") && !cour.getInformation().equals(" ") && cour.getInformation() != null && cour.getInformation().length() > 1)
+            embed.addField("Information: ", cour.getInformation(), true);
+        
+        embed.setColor(colorEDT);
+        embed.setFooter(getFooterEmbed());
+
+        return embed.build();
+    }
+
     public static MessageEmbed craftEDTListCour(ArrayList<Cour> cours){
         EmbedBuilder embed = new EmbedBuilder();
         embed.setTitle("\uD83D\uDCDA **Cours** - [" + cours.get(0).getGroupeFr() + "] (*" + cours.get(0).getDate() + "*)");

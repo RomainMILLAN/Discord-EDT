@@ -4,6 +4,7 @@ import fr.romainmillan.discordedt.commands.commandNotification;
 import fr.romainmillan.discordedt.databases.EDTDatabase;
 import fr.romainmillan.discordedt.embedCrafter.EDTCrafter;
 import fr.romainmillan.discordedt.manager.EDTConfiguration;
+import fr.romainmillan.discordedt.manager.NotificationService;
 import fr.romainmillan.discordedt.object.Cour;
 import net.dv8tion.jda.api.entities.Role;
 
@@ -20,7 +21,9 @@ public class NotificationTask extends TimerTask {
     @Override
     public void run() {
         boolean notificationSend = false;
-        commandNotification.nextTimer(cour.getGroupe());
+
+        NotificationService.nextTimer(cour.getGroupe());
+
         App.getJda().getTextChannelById(EDTConfiguration.IDC_NOTIFICATION).sendMessageEmbeds(EDTCrafter.craftNotification(cour)).queue();
         Role idrNotification = null;
 

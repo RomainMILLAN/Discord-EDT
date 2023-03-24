@@ -1,6 +1,5 @@
 package fr.romainmillan.discordedt.manager;
 
-import fr.romainmillan.discordedt.App;
 import fr.romainmillan.discordedt.states.ConsoleState;
 
 public class Console {

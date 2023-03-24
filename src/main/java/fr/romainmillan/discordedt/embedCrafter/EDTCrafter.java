@@ -1,6 +1,5 @@
 package fr.romainmillan.discordedt.embedCrafter;
 
-import fr.romainmillan.discordedt.commands.commandNotification;
 import fr.romainmillan.discordedt.object.Cour;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.MessageEmbed;

@@ -1,12 +1,9 @@
 package fr.romainmillan.discordedt.manager;
 
-import fr.romainmillan.discordedt.embedCrafter.LoggerCrafter;
 import fr.romainmillan.discordedt.states.ConsoleState;
 import fr.romainmillan.discordedt.states.FileName;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
-
-import java.util.Objects;
 
 public class Logger {
     private static Logger instance = null;

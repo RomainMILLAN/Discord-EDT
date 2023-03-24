@@ -1,8 +1,6 @@
 package fr.romainmillan.discordedt.commands;
 
-import fr.romainmillan.discordedt.databases.EDTDatabase;
 import fr.romainmillan.discordedt.embedCrafter.EDTCrafter;
-import fr.romainmillan.discordedt.embedCrafter.EmbedCrafter;
 import fr.romainmillan.discordedt.embedCrafter.ErrorCrafter;
 import fr.romainmillan.discordedt.manager.EDTService;
 import fr.romainmillan.discordedt.manager.Logger;

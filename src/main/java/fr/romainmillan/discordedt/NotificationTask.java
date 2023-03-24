@@ -20,7 +20,7 @@ public class NotificationTask extends TimerTask {
 
     @Override
     public void run() {
-        boolean notificationSend = false;
+        boolean notificationToSend = false;
 
         NotificationService.nextTimer(cour.getGroupe());
 
@@ -30,21 +30,18 @@ public class NotificationTask extends TimerTask {
 
         if(conf.getRolenotifid() != null){
             idrNotification = App.getJda().getRoleById(conf.getRolenotifid());
-            notificationSend = true;
+            notificationToSend = true;
         }
 
 
 
 
-        if(notificationSend){
+        if(notificationToSend){
             Cour next = EDTService.getNextCour(cour.getDate(), cour.getHeureFin(), cour.getGroupe());
 
-            if(idrNotification != null)
+            if(next != null && next.getName() != null && !next.getName().equals(""))
                 App.getJda().getTextChannelById(conf.getChannelId()).sendMessage(idrNotification.getAsMention() + " > Prochain cour **" + next.getName() + "**").queue();
             else
-                App.getJda().getTextChannelById(conf.getChannelId()).sendMessage(idrNotification.getAsMention()).queue();
-        }else{
-            if(idrNotification != null)
                 App.getJda().getTextChannelById(conf.getChannelId()).sendMessage(idrNotification.getAsMention()).queue();
         }
     }

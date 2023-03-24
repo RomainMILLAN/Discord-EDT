@@ -19,7 +19,7 @@ Le bot envoie une notification à tous les utilisateurs ayant un rôle spécifiq
 <br/>
 
 ### Prochain Cours
-Finalement, le bot permet également aux utilisateurs de consulter leur prochain cours en utilisant la commande `/next.
+Finalement, le bot permet également aux utilisateurs de consulter leur prochain cours en utilisant la commande `/next`.
 <img width="340" alt="Capture d’écran 2023-03-23 à 12 59 04" src="https://user-images.githubusercontent.com/42139000/227197212-495c8bee-7deb-4a39-b614-99bb3e939038.png">
 
 <br/>

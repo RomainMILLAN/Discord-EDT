@@ -18,25 +18,18 @@ public class NotificationTask extends TimerTask {
         this.cour = cour;
     }
 
+    /**
+     * Permet de lancer la notification d'un cour
+     */
     @Override
     public void run() {
-        boolean notificationToSend = false;
-
-        NotificationService.nextTimer(cour.getGroupe());
 
         Configuration conf = ConfigurationDatabase.getConfigurationByGroupe(cour.getGroupe());
         App.getJda().getTextChannelById(conf.getChannelId()).sendMessageEmbeds(EDTCrafter.craftNotification(cour)).queue();
-        Role idrNotification = null;
-
+        NotificationService.nextTimer(cour.getGroupe());
+       
         if(conf.getRolenotifid() != null){
-            idrNotification = App.getJda().getRoleById(conf.getRolenotifid());
-            notificationToSend = true;
-        }
-
-
-
-
-        if(notificationToSend){
+            Role idrNotification = App.getJda().getRoleById(conf.getRolenotifid());
             Cour next = EDTService.getNextCour(cour.getDate(), cour.getHeureFin(), cour.getGroupe());
 
             if(next != null && next.getName() != null && !next.getName().equals(""))

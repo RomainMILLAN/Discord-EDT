@@ -23,6 +23,14 @@ Finalement, le bot permet également aux utilisateurs de consulter leur prochain
 <img width="340" alt="Capture d’écran 2023-03-23 à 12 59 04" src="https://user-images.githubusercontent.com/42139000/227197212-495c8bee-7deb-4a39-b614-99bb3e939038.png">
 
 <br/>
+
+## Comment lancer le bot
+Commencer par télécharger la base de données `DiscordEDT.db`.<br/>
+Ensuite télécharger le fichier .jar `DiscordEDT.jar`<br/>
+Enfin lancer le bot avec la commande `java -jar DiscordEDT.jar <TOKEN> --<Identifiant role administrateur du bot>`<br/>
+
+<br/>
+<br/>
 <br/>
 
 *Fait par Romain MILLAN.*

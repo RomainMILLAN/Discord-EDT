@@ -8,6 +8,12 @@ import java.util.Date;
 import java.util.Timer;
 
 public class NotificationService {
+    /**
+     * Mets en place la prochaine notifications.
+     * <pre/>
+     * 
+     * @param groupe nom du groupe auquel il faut changer la prochaien notification
+     */
     public static void nextTimer(String groupe){
 
         Cour current = EDTService.getNextCourToday(groupe);
@@ -18,6 +24,12 @@ public class NotificationService {
         }
     }
 
+    /**
+     * Permet de mettre en palce la notiofication pour un cour donné
+     * <pre/>
+     * 
+     * @param cour
+     */
     public static void setNotificationToCour(Cour cour){
         int[] hourTab = getHourAndMinByString(cour.getHeureDebut());
 
@@ -40,6 +52,13 @@ public class NotificationService {
         timer.schedule(new NotificationTask(cour), time);
     }
 
+    /**
+     * Divise l'heure et les minutes
+     * <pre/>
+     * 
+     * @param hour Heure à diviser
+     * @return Tableau contenant en 0 les heures et en 1 les minutes.
+     */
     public static int[] getHourAndMinByString(String hour){
         String[] hourTab = hour.split(":");
         int[] res = new int[2];

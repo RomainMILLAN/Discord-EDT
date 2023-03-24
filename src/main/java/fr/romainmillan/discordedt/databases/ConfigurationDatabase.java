@@ -10,6 +10,12 @@ import java.util.List;
 
 public class ConfigurationDatabase {
 
+    /**
+     * Crée une liste des groupes pour les commandes Slash
+     * <pre/>
+     * 
+     * @return <code>List<Command.Choice></code> Liste des groupes
+     */
     public static List<Command.Choice> getAllGroupeChoices(){
         final String sql = "SELECT groupe, nickgroupe FROM CONF";
         List<Command.Choice> res = new ArrayList<>();
@@ -27,6 +33,12 @@ public class ConfigurationDatabase {
         return res;
     }
 
+    /**
+     * Initialize un nouveau groupe dans la BD.
+     * <pre/>
+     * 
+     * @param configuration du nouveau groupe
+     */
     public static void setupGroupe(Configuration configuration){
         final String sql = "INSERT INTO CONF(`groupe`, `nickgroupe`) VALUES('"+configuration.getGroupe()+"', '"+configuration.getNickgroupe()+"');";
 
@@ -37,6 +49,13 @@ public class ConfigurationDatabase {
         }
     }
 
+    /**
+     * Récupére une configuration d'un groupe par son nom de groupe
+     * <pre/>
+     * 
+     * @param groupe nom du groupe à rechercher dans la Base de Données
+     * @return <code>Configuration</code> du groupe récupérer dans la Base de Données
+     */
     public static Configuration getConfigurationByGroupe(String groupe){
         final String sql = "SELECT * FROM CONF WHERE groupe='"+groupe+"' LIMIT 1";
 
@@ -60,8 +79,14 @@ public class ConfigurationDatabase {
         return null;
     }
 
-    public static void updateConfiguration(Configuration conf){
-        final String sql = "UPDATE CONF SET nickgroupe='"+conf.getNickgroupe()+"', url='"+conf.getUrl()+"', roleid='"+conf.getRoleid()+"', rolenotifid='"+conf.getRolenotifid()+"', channelid='"+conf.getChannelId()+"' WHERE groupe='"+conf.getGroupe()+"'";
+    /**
+     * Mets à jour une configuration de groupe dans la Base de Données.
+     * <pre/>
+     * 
+     * @param configuration à mettre à jour
+     */
+    public static void updateConfiguration(Configuration configuration){
+        final String sql = "UPDATE CONF SET nickgroupe='"+configuration.getNickgroupe()+"', url='"+configuration.getUrl()+"', roleid='"+configuration.getRoleid()+"', rolenotifid='"+configuration.getRolenotifid()+"', channelid='"+configuration.getChannelId()+"' WHERE groupe='"+configuration.getGroupe()+"'";
 
         try {
             DatabaseConnection.getInstance().getStatement().execute(sql);
@@ -70,6 +95,12 @@ public class ConfigurationDatabase {
         }
     }
 
+    /**
+     * Récupére la liste des noms des groupes.
+     * <pre/>
+     * 
+     * @return <code>List<String></code>
+     */
     public static List<String> getListGroupe(){
         final String sql = "SELECT groupe FROM CONF";
         List<String> res = new ArrayList<>();

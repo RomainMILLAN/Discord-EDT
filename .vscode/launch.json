@@ -1,0 +1,22 @@
+{
+    // Utilisez IntelliSense pour en savoir plus sur les attributs possibles.
+    // Pointez pour afficher la description des attributs existants.
+    // Pour plus d'informations, visitez : https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Current File",
+            "request": "launch",
+            "mainClass": "${file}"
+        },
+        {
+            "type": "java",
+            "name": "App",
+            "request": "launch",
+            "mainClass": "fr.romainmillan.discordedt.App",
+            "projectName": "DiscordEDT",
+            "args": "MTA4ODA2OTcyNjQwOTg3MTQ1MA.Gozymo.ZgX9zG-lYmeauLYJxAkq5jZqkD5azrlLdg8XUY --899004650232098836"
+        }
+    ]
+}

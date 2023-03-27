@@ -139,6 +139,9 @@ public class commandEDT extends ListenerAdapter {
 
         List<CalendarComponent> cs = calendar.getComponents();
         EDTDatabase.deleteAllCourByGroupeId(groupe);
+
+        int hourIntDecalage = 2;
+
         for (CalendarComponent c: cs) {
             if (c instanceof VEvent) {
                 String date = String.valueOf(c.getProperties().get(1));
@@ -154,7 +157,7 @@ public class commandEDT extends ListenerAdapter {
                 hstart = hstart.substring(0, 4);
                 String hstarth = hstart.substring(0, 2);
                 int hstarthint = Integer.parseInt(hstarth);
-                hstarthint += 1;
+                hstarthint += hourIntDecalage;
                 if(hstarthint < 10){
                     hstarth = "0" + String.valueOf(hstarthint);
                 }else{
@@ -168,7 +171,7 @@ public class commandEDT extends ListenerAdapter {
                 hend = hend.substring(0, 4);
                 String hendh = hend.substring(0, 2);
                 int hendhint = Integer.parseInt(hendh);
-                hendhint += 1;
+                hendhint += hourIntDecalage;
                 hendh = String.valueOf(hendhint);
                 String hendm = hend.substring(2, 4);
                 hend = hendh + ":" + hendm;

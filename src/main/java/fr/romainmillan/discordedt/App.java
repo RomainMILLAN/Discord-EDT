@@ -3,6 +3,7 @@ package fr.romainmillan.discordedt;
 import fr.romainmillan.discordedt.commands.*;
 import fr.romainmillan.discordedt.manager.CommandManager;
 import fr.romainmillan.discordedt.manager.Console;
+import fr.romainmillan.discordedt.manager.ConsoleCommander;
 import fr.romainmillan.discordedt.messages.AppMessages;
 import fr.romainmillan.discordedt.states.ConsoleState;
 import net.dv8tion.jda.api.JDA;
@@ -79,7 +80,7 @@ public class App {
         /*
         ConsoleCommander
         */
-        //ConsoleCommander.consoleCommander();
+        ConsoleCommander.consoleCommander();
     }
 
     /**

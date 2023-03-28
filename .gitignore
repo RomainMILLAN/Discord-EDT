@@ -1,4 +1,6 @@
 .idea/
 target/
 DoxerLogs.txt
+.vscode/
+.vscode/launch.json
 ._*

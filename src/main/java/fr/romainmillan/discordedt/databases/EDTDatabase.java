@@ -118,6 +118,38 @@ public class EDTDatabase {
             throw new RuntimeException(e);
         }
     }
+
+    /**
+     * Delete course on DB by date and groupe
+     * @param groupe
+     */
+    public static void deleteAllCourAfterDateByGroupe(String date, String groupe){
+        final String sql = "SELECT * FROM DB_EDT WHERE groupe='"+groupe+"'";
+
+        String[] dateOfRefresh = date.split("/");
+        int dayOfRefresh = Integer.parseInt(dateOfRefresh[0]);
+        int monthOfRefresh = Integer.parseInt(dateOfRefresh[1]);
+        int yearOfRefresh = Integer.parseInt(dateOfRefresh[2]);
+
+        try {
+            ResultSet ResultatSQL = DatabaseConnection.getInstance().getStatement().executeQuery(sql);
+
+            while(ResultatSQL.next()){
+                String[] dateSplit = ResultatSQL.getString("date").split("/");
+                int day = Integer.parseInt(dateSplit[0]);
+                int month = Integer.parseInt(dateSplit[1]);
+                int year = Integer.parseInt(dateSplit[2]);
+
+                if((year > yearOfRefresh) || (year == yearOfRefresh && month == monthOfRefresh && day >= dayOfRefresh) || (year == yearOfRefresh && month > monthOfRefresh)){
+                    final String sqlToDelete = "DELETE FROM DB_EDT WHERE id='"+ResultatSQL.getString("id")+"'";
+
+                    DatabaseConnection.getInstance().getStatement().execute(sqlToDelete);
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
     /*
     UPDATE
      */

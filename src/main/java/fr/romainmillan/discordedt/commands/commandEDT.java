@@ -23,7 +23,9 @@ import java.awt.*;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
@@ -50,9 +52,13 @@ public class commandEDT extends ListenerAdapter {
             if(action != null){
                 if(action.equals("refresh")){
                     if(groupe != null){
+
                         try {
                             e.replyEmbeds(EmbedCrafter.embedCraftWithDescriptionAndColor(":white_check_mark: " + EDTMessages.EDT_DOING_REFRSH.getMessage() + " (`"+groupe+"`)", Color.GREEN)).setEphemeral(true).queue((m) -> m.deleteOriginal().queueAfter(QueueAfterTimes.SUCCESS_TIME.getQueueAfterTime(), TimeUnit.SECONDS));
-                            this.refreshEdtByGroupe(groupe);
+
+                            DateTimeFormatter daysFormatter = DateTimeFormatter.ofPattern("dd/LL/uuuu");
+                            String date = daysFormatter.format(LocalDate.now());
+                            this.refreshEdtByGroupeAndDate(groupe, date);
 
                             e.getChannel().sendMessageEmbeds(EmbedCrafter.embedCraftWithDescriptionAndColor(":white_check_mark: " + EDTMessages.EDT_REFRESH.getMessage() + " (`"+groupe+"`)", Color.GREEN)).queue((m) -> m.delete().queueAfter(QueueAfterTimes.SUCCESS_TIME.getQueueAfterTime(), TimeUnit.SECONDS));
                             Logger.getInstance().toLog(PluginName.EDT.getMessage(),  EDTMessages.EDT_REFRESH.getMessage() + " (`"+groupe+"`)", e.getGuild(), e.getMember(), true);
@@ -124,7 +130,7 @@ public class commandEDT extends ListenerAdapter {
         }
     }
 
-    public void refreshEdtByGroupe(String groupe) throws IOException, ParserException {
+    public void refreshEdtByGroupeAndDate(String groupe, String dateToRefresh) throws IOException, ParserException {
         String url = "";
         String fileName = groupe + ".ics";
 
@@ -138,12 +144,18 @@ public class commandEDT extends ListenerAdapter {
         Calendar calendar = builder.build(fin);
 
         List<CalendarComponent> cs = calendar.getComponents();
-        EDTDatabase.deleteAllCourByGroupeId(groupe);
 
         int hourIntDecalage = 2;
+        String[] dateToRefreshSplit = dateToRefresh.split("/");
+        int dayToRefresh = Integer.parseInt(dateToRefreshSplit[0]);
+        int monthToRefresh = Integer.parseInt(dateToRefreshSplit[1]);
+        int yearToRefresh = Integer.parseInt(dateToRefreshSplit[2]);
 
+        EDTDatabase.deleteAllCourAfterDateByGroupe(dateToRefresh, groupe);
+        
         for (CalendarComponent c: cs) {
             if (c instanceof VEvent) {
+                //DATE
                 String date = String.valueOf(c.getProperties().get(1));
                 date = date.substring(8);
                 date = date.substring(0, 8);
@@ -151,78 +163,91 @@ public class commandEDT extends ListenerAdapter {
                 String mois = date.substring(4, 6);
                 String jour = date.substring(6, 8);
                 date = jour + "/" + mois + "/" + anne;
+                int year = Integer.parseInt(anne);
+                int month = Integer.parseInt(mois);
+                int day = Integer.parseInt(jour);
 
-                String hstart = String.valueOf(c.getProperties().get(1));
-                hstart = hstart.substring(17);
-                hstart = hstart.substring(0, 4);
-                String hstarth = hstart.substring(0, 2);
-                int hstarthint = Integer.parseInt(hstarth);
-                hstarthint += hourIntDecalage;
-                if(hstarthint < 10){
-                    hstarth = "0" + String.valueOf(hstarthint);
-                }else{
-                    hstarth = String.valueOf(hstarthint);
-                }
-                String hstartm = hstart.substring(2, 4);
-                hstart = hstarth + ":" + hstartm;
-
-                String hend = String.valueOf(c.getProperties().get(2));
-                hend = hend.substring(15);
-                hend = hend.substring(0, 4);
-                String hendh = hend.substring(0, 2);
-                int hendhint = Integer.parseInt(hendh);
-                hendhint += hourIntDecalage;
-                hendh = String.valueOf(hendhint);
-                String hendm = hend.substring(2, 4);
-                hend = hendh + ":" + hendm;
-
-                String location = " ";
-                if(String.valueOf(c.getProperties().get(4)).length() > 2 && !String.valueOf(c.getProperties().get(4)).contains("\r\n")){
-                    location = String.valueOf(c.getProperties().get(4));
-                    location = location.substring(9);
-                }
-                if(location.contains("'"))
-                    location = location.replace("'", " ");
-
-                String description = String.valueOf(c.getProperties().get(5));
-                description = description.substring(16);
-                description = description.replaceAll("[\n\t ]", " ");
-                description = description.replace("\\", " ");
-                description = description.replace("n", "§");
-                String descArgs[] = description.split("§");
-                if(description.contains("'"))
-                    description = description.replace("'", " ");
-
-                String professeur = "";
-                for(String sr : descArgs){
-                    if(sr.equals(sr.toUpperCase()) && !sr.startsWith("ERIFIE") && !sr.contains("\n") && !sr.contains("\r")){
-                        professeur += sr + " ";
+                if((year > yearToRefresh) || (year == yearToRefresh && month == monthToRefresh && day >= dayToRefresh) || (year == yearToRefresh && month > monthToRefresh)){
+                    //HEURES
+                    //Heure de début
+                    String hstart = String.valueOf(c.getProperties().get(1));
+                    hstart = hstart.substring(17);
+                    hstart = hstart.substring(0, 4);
+                    String hstarth = hstart.substring(0, 2);
+                    int hstarthint = Integer.parseInt(hstarth);
+                    hstarthint += hourIntDecalage;
+                    if(hstarthint < 10){
+                        hstarth = "0" + String.valueOf(hstarthint);
+                    }else{
+                        hstarth = String.valueOf(hstarthint);
                     }
-                }
-                if(professeur.length() < 4)
-                    professeur = "AUCUN";
-                for (String str : descArgs){
-                    boolean allMAJ = true;
-                    int i=0;
-                    while(i<str.length() && allMAJ == true){
-                        char ch = str.charAt(i);
-                        if(Character.isLowerCase(ch)){
-                            allMAJ = false;
+                    String hstartm = hstart.substring(2, 4);
+                    hstart = hstarth + ":" + hstartm;
+                    //Heure de fin
+                    String hend = String.valueOf(c.getProperties().get(2));
+                    hend = hend.substring(15);
+                    hend = hend.substring(0, 4);
+                    String hendh = hend.substring(0, 2);
+                    int hendhint = Integer.parseInt(hendh);
+                    hendhint += hourIntDecalage;
+                    hendh = String.valueOf(hendhint);
+                    String hendm = hend.substring(2, 4);
+                    hend = hendh + ":" + hendm;
+
+                    //SAELLE
+                    String location = " ";
+                    if(String.valueOf(c.getProperties().get(4)).length() > 2 && !String.valueOf(c.getProperties().get(4)).contains("\r\n")){
+                        location = String.valueOf(c.getProperties().get(4));
+                        location = location.substring(9);
+                    }
+                    if(location.contains("'"))
+                        location = location.replace("'", " ");
+
+                    //DESCRIPTION
+                    String description = String.valueOf(c.getProperties().get(5));
+                    description = description.substring(16);
+                    description = description.replaceAll("[\n\t ]", " ");
+                    description = description.replace("\\", " ");
+                    description = description.replace("n", "§");
+                    String descArgs[] = description.split("§");
+                    if(description.contains("'"))
+                        description = description.replace("'", " ");
+
+                    //PROFESSEUR
+                    String professeur = "";
+                    for(String sr : descArgs){
+                        if(sr.equals(sr.toUpperCase()) && !sr.startsWith("ERIFIE") && !sr.contains("\n") && !sr.contains("\r")){
+                            professeur += sr + " ";
                         }
-
-                        i++;
                     }
+                    if(professeur.length() < 4)
+                        professeur = "AUCUN";
+                    for (String str : descArgs){
+                        boolean allMAJ = true;
+                        int i=0;
+                        while(i<str.length() && allMAJ == true){
+                            char ch = str.charAt(i);
+                            if(Character.isLowerCase(ch)){
+                                allMAJ = false;
+                            }
+
+                            i++;
+                        }
+                    }
+
+                    //ID
+                    int id = EDTDatabase.getMaxId()+1;
+
+                    //NOM
+                    String name = String.valueOf(c.getProperties().get(3));
+                    name = name.substring(8);
+                    name = name.substring(0, name.length()-2);
+                    if(name.contains("'"))
+                        name = name.replace("'", " ");
+
+                    //AJOUT
+                    EDTDatabase.ajoutCour(new Cour(id, groupe, name, location, professeur, hstart, hend, date, " "));   
                 }
-
-                int id = EDTDatabase.getMaxId()+1;
-
-                String name = String.valueOf(c.getProperties().get(3));
-                name = name.substring(8);
-                name = name.substring(0, name.length()-2);
-                if(name.contains("'"))
-                    name = name.replace("'", " ");
-
-                EDTDatabase.ajoutCour(new Cour(id, groupe, name, location, professeur, hstart, hend, date, " "));
             }
         }
     }

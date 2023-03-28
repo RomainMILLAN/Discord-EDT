@@ -49,15 +49,22 @@ public class commandEDT extends ListenerAdapter {
             if(e.getOption("id") != null)
                 id = Objects.requireNonNull(e.getOption("id")).getAsString();
 
+            String date = null;
+            if(e.getOption("date") != null)
+                date = Objects.requireNonNull(e.getOption("date")).getAsString();
+
             if(action != null){
                 if(action.equals("refresh")){
                     if(groupe != null){
+                        
+                        if(date == null){
+                            DateTimeFormatter daysFormatter = DateTimeFormatter.ofPattern("dd/LL/uuuu");
+                            date = daysFormatter.format(LocalDate.now());
+                        }
 
                         try {
                             e.replyEmbeds(EmbedCrafter.embedCraftWithDescriptionAndColor(":white_check_mark: " + EDTMessages.EDT_DOING_REFRSH.getMessage() + " (`"+groupe+"`)", Color.GREEN)).setEphemeral(true).queue((m) -> m.deleteOriginal().queueAfter(QueueAfterTimes.SUCCESS_TIME.getQueueAfterTime(), TimeUnit.SECONDS));
 
-                            DateTimeFormatter daysFormatter = DateTimeFormatter.ofPattern("dd/LL/uuuu");
-                            String date = daysFormatter.format(LocalDate.now());
                             this.refreshEdtByGroupeAndDate(groupe, date);
 
                             e.getChannel().sendMessageEmbeds(EmbedCrafter.embedCraftWithDescriptionAndColor(":white_check_mark: " + EDTMessages.EDT_REFRESH.getMessage() + " (`"+groupe+"`)", Color.GREEN)).queue((m) -> m.delete().queueAfter(QueueAfterTimes.SUCCESS_TIME.getQueueAfterTime(), TimeUnit.SECONDS));
@@ -93,9 +100,6 @@ public class commandEDT extends ListenerAdapter {
                 }
             }else {
                 //SEE EDT
-                String date = null;
-                if(e.getOption("date") != null)
-                    date = Objects.requireNonNull(e.getOption("date")).getAsString();
 
                 if(id == null){
                     if(date == null){

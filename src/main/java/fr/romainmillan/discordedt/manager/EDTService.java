@@ -6,7 +6,9 @@ import fr.romainmillan.discordedt.object.Cour;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 
 public class EDTService {
 
@@ -79,6 +81,33 @@ public class EDTService {
 
         String resultat = dayStr + "/" + monthStr + "/" + yearStr;
 
+
+        return resultat;
+    }
+
+    public static HashMap<String, String> getListeCourSemaineDateStartAndGroupe(String dateStart, String groupe) {
+        HashMap<String, String> resultat = new HashMap();
+        
+        int jours = 0;
+        String date = dateStart;
+        do{
+            System.out.println(date);
+            ArrayList<Cour> listeCourDate = EDTDatabase.getListCourByDateAndGroupe(date, groupe);
+
+            String descriptionDate = "";
+            if(listeCourDate.isEmpty()){
+                descriptionDate = "*Aucun cour ce jour*";
+            }else{
+                for(Cour cour : listeCourDate){
+                    descriptionDate += " ■ [*" + cour.getId() + "*] *"+cour.getProfesseur()+"* **" + cour.getName() + "** - `" + cour.getHeureDebut() + "`/`" + cour.getHeureFin() + "`\n";
+                }    
+            }
+
+            resultat.put(date, descriptionDate);
+
+            date = EDTService.getNextDate(date);
+            jours++;
+        }while(jours < 5);
 
         return resultat;
     }

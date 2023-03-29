@@ -1,11 +1,14 @@
 package fr.romainmillan.discordedt.embedCrafter;
 
+import fr.romainmillan.discordedt.manager.EDTService;
 import fr.romainmillan.discordedt.object.Cour;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class EDTCrafter extends EmbedCrafter{
     private static Color colorEDT = Color.MAGENTA;
@@ -75,6 +78,32 @@ public class EDTCrafter extends EmbedCrafter{
         }
         
         embed.setDescription(description);
+        embed.setColor(colorEDT);
+        embed.setFooter(getFooterEmbed());
+
+        return embed.build();
+    }
+
+    /**
+     * Retourne un embed de la liste des cours
+     * <pre/>
+     * 
+     * @param cours Liste des cours
+     * @return <code>MessageEmbed</code>
+     */
+    public static MessageEmbed craftEDTSemaine(String date, String groupe, HashMap<String, String> coursList){
+        EmbedBuilder embed = new EmbedBuilder();
+        embed.setTitle("\uD83D\uDCDA **Cours** - [" + groupe + "] (*" + date + "*)");
+        
+        int jours=0;
+        String dateCurrent = date;
+        do{
+            embed.addField(dateCurrent, coursList.get(dateCurrent), false);
+            
+            dateCurrent = EDTService.getNextDate(dateCurrent);
+            jours++;
+        }while(jours<5);
+        
         embed.setColor(colorEDT);
         embed.setFooter(getFooterEmbed());
 

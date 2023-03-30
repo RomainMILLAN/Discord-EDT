@@ -22,8 +22,9 @@ public class CommandManager {
         OptionData edtInfo = new OptionData(OptionType.STRING, "information", EDTMessages.DESCRIPTION_EDT_INFO_ARGUMENT.getMessage()).setRequired(false);
         commandData.add(Commands.slash("edt", EDTMessages.DESCRIPTION_EDT_COMMAND.getMessage()).addOptions(edtInfo).addOptions(edtAction).addOptions(edtId).addOptions(edtGroupe).addOptions(edtDate));
 
-        OptionData edtGroupeRequired = new OptionData(OptionType.STRING, "groupe", EDTMessages.DESCRIPTION_EDT_GROUPE_ARGUMENT.getMessage()).setRequired(true).addChoices(ConfigurationDatabase.getAllGroupeChoices());
-        commandData.add(Commands.slash("notification", EDTMessages.DESCRIPTION_NOTIFICATION_COMMAND.getMessage()).addOptions(edtGroupeRequired));
+        OptionData edtGroupeRequired = new OptionData(OptionType.STRING, "groupe", EDTMessages.DESCRIPTION_EDT_GROUPE_ARGUMENT.getMessage()).setRequired(false).addChoices(ConfigurationDatabase.getAllGroupeChoices());
+        OptionData notificationAction = new OptionData(OptionType.STRING, "action", EDTMessages.NOTIFICATION_ACTION_ARG.getMessage()).setRequired(false).addChoice("Supprimer toutes les notifications", "delete");
+        commandData.add(Commands.slash("notification", EDTMessages.DESCRIPTION_NOTIFICATION_COMMAND.getMessage()).addOptions(edtGroupeRequired).addOptions(notificationAction));
 
         commandData.add(Commands.slash("next", EDTMessages.DESCRIPTION_NEXT_COMMAND.getMessage()).addOptions(edtGroupeRequired));
 

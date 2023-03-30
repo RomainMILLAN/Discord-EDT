@@ -19,7 +19,8 @@ public enum EDTMessages {
     INFORMATION_UPDATE("Information du cour mise à jour"),
     DESCRIPTION_NOTIFICATION_COMMAND("Permet d'avoir les notification des cours"),
     DESCRIPTION_NEXT_COMMAND("Permet de visualiser le prochain cour d'un groupe"),
-    NO_COUR_FOUND("Aucune cour n'as était trouvée");
+    NO_COUR_FOUND("Aucune cour n'as était trouvée"),
+    NOTIFICATION_ACTION_ARG("Action à effectuée");
 
     private String message;
 

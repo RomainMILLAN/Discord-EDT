@@ -1,5 +1,6 @@
 package fr.romainmillan.discordedt.manager;
 
+import fr.romainmillan.discordedt.App;
 import fr.romainmillan.discordedt.NotificationTask;
 import fr.romainmillan.discordedt.object.Cour;
 
@@ -48,6 +49,7 @@ public class NotificationService {
 
         Date time = calendar.getTime();
         Timer timer = new Timer();
+        App.timersNotification.add(timer);
 
         timer.schedule(new NotificationTask(cour), time);
     }
@@ -66,5 +68,15 @@ public class NotificationService {
         res[1] = Integer.parseInt(hourTab[1]);
 
         return res;
+    }
+
+    /**
+     * Supprime toutes les notifications
+     * <pre/>
+     */
+    public static void deleteAllNotifications(){
+        for(Timer t : App.timersNotification){
+            t.cancel();
+        }
     }
 }

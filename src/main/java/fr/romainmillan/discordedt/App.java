@@ -14,12 +14,14 @@ import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.dv8tion.jda.api.utils.cache.CacheFlag;
 
 import java.util.ArrayList;
+import java.util.Timer;
 
 public class App {
     final public static String urlLinkToBDD = "jdbc:sqlite:DiscordEDT.db";
     private static JDA jda;
     public static String idSudo = "";
     public static ArrayList<String> notificationCurrent = new ArrayList<>();
+    public static ArrayList<Timer> timersNotification = new ArrayList<>();
 
     /**
      * Get the token of the bot and run it.

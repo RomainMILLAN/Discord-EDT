@@ -51,6 +51,12 @@ public class EDTService {
         return getNextCour(date, hours, groupe);
     }
 
+    /**
+     * Retourne la prochaine date
+     * <pre/>
+     * @param date <code>String</code> au format dd/mm/yyyy
+     * @return <code>String</code> au format dd/mm/yyyy
+     */
     public static String getNextDate(String date){
         String[] dateSplit = date.split("/");
         // [01] [02] [2023]
@@ -85,13 +91,17 @@ public class EDTService {
         return resultat;
     }
 
+    /**
+     * @param dateStart
+     * @param groupe
+     * @return
+     */
     public static HashMap<String, String> getListeCourSemaineDateStartAndGroupe(String dateStart, String groupe) {
-        HashMap<String, String> resultat = new HashMap();
+        HashMap<String, String> resultat = new HashMap<String, String>();
         
         int jours = 0;
         String date = dateStart;
         do{
-            System.out.println(date);
             ArrayList<Cour> listeCourDate = EDTDatabase.getListCourByDateAndGroupe(date, groupe);
 
             String descriptionDate = "";

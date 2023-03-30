@@ -8,7 +8,6 @@ import net.dv8tion.jda.api.entities.MessageEmbed;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 
 public class EDTCrafter extends EmbedCrafter{
     private static Color colorEDT = Color.MAGENTA;

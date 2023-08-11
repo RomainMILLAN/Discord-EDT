@@ -1,6 +1,6 @@
-package fr.romainmillan.discordedt.manager;
+package fr.romainmillan.discordedt.states;
 
-public enum ConsoleColor {
+public enum ConsoleColors {
     //RESET
     RESET("\033[0m"),
 
@@ -73,6 +73,6 @@ public enum ConsoleColor {
 
     private final String consoleColor;
 
-    ConsoleColor(String consoleColor) {this.consoleColor = consoleColor;}
+    ConsoleColors(String consoleColor) {this.consoleColor = consoleColor;}
     public String getConsoleColor() {return consoleColor;}
 }

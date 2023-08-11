@@ -3,7 +3,9 @@ package fr.romainmillan.discordedt.manager;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+
 public class DateHourFormatter {
+
     private static DateHourFormatter instance = null;
     private DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd/MM/yyy");
     private DateTimeFormatter hourTimeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
@@ -49,4 +51,5 @@ public class DateHourFormatter {
     public String getHourTimeFormat(){
         return hourTimeFormatter.format(LocalDateTime.now());
     }
+
 }

@@ -1,6 +1,10 @@
-.idea/
+# IDE configuration file
+.vscode
+.idea
 target/
-DoxerLogs.txt
-.vscode/
-.vscode/launch.json
-._*
+
+# Doxer ignore files
+.env
+discordedt.db
+sentry.txt
+

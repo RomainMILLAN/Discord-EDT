@@ -7,9 +7,10 @@ import fr.romainmillan.discordedt.embedCrafter.EmbedCrafter;
 import fr.romainmillan.discordedt.embedCrafter.ErrorCrafter;
 import fr.romainmillan.discordedt.manager.Downloader;
 import fr.romainmillan.discordedt.manager.EDTService;
-import fr.romainmillan.discordedt.manager.Logger;
+import fr.romainmillan.discordedt.manager.Sentry;
 import fr.romainmillan.discordedt.messages.EDTMessages;
 import fr.romainmillan.discordedt.object.Cour;
+import fr.romainmillan.discordedt.states.LogState;
 import fr.romainmillan.discordedt.states.PluginName;
 import fr.romainmillan.discordedt.states.QueueAfterTimes;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
@@ -78,9 +79,11 @@ public class commandEDT extends ListenerAdapter {
                                             Color.GREEN))
                                     .queue((m) -> m.delete().queueAfter(
                                             QueueAfterTimes.SUCCESS_TIME.getQueueAfterTime(), TimeUnit.SECONDS));
-                            Logger.getInstance().toLog(PluginName.EDT.getMessage(),
-                                    EDTMessages.EDT_REFRESH.getMessage() + " (`" + groupe + "`)", e.getGuild(),
-                                    e.getMember(), true);
+                            Sentry.getInstance().toLog(PluginName.EDT.getMessage(),
+                                    EDTMessages.EDT_REFRESH.getMessage() + " (`" + groupe + "`)", 
+                                    LogState.SUCCESSFUL,
+                                    e.getMember(),
+                                    e.getGuild());
                         } catch (IOException | ParserException ex) {
                             throw new RuntimeException(ex);
                         }
@@ -89,8 +92,8 @@ public class commandEDT extends ListenerAdapter {
                                 .errorEmbedCrafterWithDescription(":x: " + EDTMessages.NO_GROUP_SELECT.getMessage()))
                                 .setEphemeral(true).queue((m) -> m.deleteOriginal()
                                         .queueAfter(QueueAfterTimes.ERROR_TIME.getQueueAfterTime(), TimeUnit.SECONDS));
-                        Logger.getInstance().toLog(PluginName.EDT.getMessage(),
-                                EDTMessages.NO_GROUP_SELECT.getMessage(), e.getGuild(), e.getMember(), false);
+                        Sentry.getInstance().toLog(PluginName.EDT.getMessage(),
+                                EDTMessages.NO_GROUP_SELECT.getMessage(), LogState.ERROR, e.getMember(), e.getGuild());
                     }
                 }
 
@@ -107,24 +110,32 @@ public class commandEDT extends ListenerAdapter {
                                     ":white_check_mark: " + EDTMessages.INFORMATION_UPDATE.getMessage(), Color.GREEN))
                                     .setEphemeral(true).queue((m) -> m.deleteOriginal().queueAfter(
                                             QueueAfterTimes.SUCCESS_TIME.getQueueAfterTime(), TimeUnit.SECONDS));
-                            Logger.getInstance().toLog(PluginName.EDT.getMessage(),
+                            Sentry.getInstance().toLog(PluginName.EDT.getMessage(),
                                     EDTMessages.INFORMATION_UPDATE + " (`" + id + "` -> `" + information + "`)",
-                                    e.getGuild(), e.getMember(), true);
+                                    LogState.SUCCESSFUL,
+                                    e.getMember(),
+                                    e.getGuild());
                         } else {
                             e.replyEmbeds(ErrorCrafter
                                     .errorEmbedCrafterWithDescription(":x: " + EDTMessages.NO_ID_ARGUMENT.getMessage()))
                                     .setEphemeral(true).queue((m) -> m.deleteOriginal().queueAfter(
                                             QueueAfterTimes.ERROR_TIME.getQueueAfterTime(), TimeUnit.SECONDS));
-                            Logger.getInstance().toLog(PluginName.EDT.getMessage(),
-                                    EDTMessages.NO_ID_ARGUMENT.getMessage(), e.getGuild(), e.getMember(), false);
+                            Sentry.getInstance().toLog(PluginName.EDT.getMessage(),
+                                    EDTMessages.NO_ID_ARGUMENT.getMessage(), 
+                                    LogState.ERROR,
+                                    e.getMember(),
+                                    e.getGuild());
                         }
                     } else {
                         e.replyEmbeds(ErrorCrafter.errorEmbedCrafterWithDescription(
                                 ":x: " + EDTMessages.NO_INFORMATION_ARGUMENT.getMessage())).setEphemeral(true)
                                 .queue((m) -> m.deleteOriginal()
                                         .queueAfter(QueueAfterTimes.ERROR_TIME.getQueueAfterTime(), TimeUnit.SECONDS));
-                        Logger.getInstance().toLog(PluginName.EDT.getMessage(),
-                                EDTMessages.NO_INFORMATION_ARGUMENT.getMessage(), e.getGuild(), e.getMember(), false);
+                        Sentry.getInstance().toLog(PluginName.EDT.getMessage(),
+                                EDTMessages.NO_INFORMATION_ARGUMENT.getMessage(), 
+                                LogState.ERROR,
+                                e.getMember(),
+                                e.getGuild());
                     }
                 }
             } else {
@@ -140,24 +151,28 @@ public class commandEDT extends ListenerAdapter {
                         HashMap<String, String> listeSemaineCour = EDTService.getListeCourSemaineDateStartAndGroupe(date, groupe);
 
                         e.replyEmbeds(EDTCrafter.craftEDTSemaine(date, groupe, listeSemaineCour)).queue();
-                        Logger.getInstance().toLog(PluginName.EDT.getMessage(), "Affichage de l'emploi du temp de la semaine (`"+date+"`)", e.getGuild(), e.getMember(), true);
+                        Sentry.getInstance().toLog(PluginName.EDT.getMessage(), "Affichage de l'emploi du temp de la semaine (`"+date+"`)", LogState.SUCCESSFUL, e.getMember(), e.getGuild());
                     } else {
                         // Liste des cours
                         ArrayList<Cour> listCour = EDTDatabase.getListCourByDateAndGroupe(date, groupe);
 
                         if (listCour.size() != 0) {
                             e.replyEmbeds(EDTCrafter.craftEDTListCour(listCour)).queue();
-                            Logger.getInstance().toLog(PluginName.EDT.getMessage(),
-                                    EDTMessages.SHOW_COUR_LIST.getMessage() + " (`" + date + "`), ", e.getGuild(),
-                                    e.getMember(), true);
+                            Sentry.getInstance().toLog(PluginName.EDT.getMessage(),
+                                    EDTMessages.SHOW_COUR_LIST.getMessage() + " (`" + date + "`), ", 
+                                    LogState.SUCCESSFUL,
+                                    e.getMember(),
+                                    e.getGuild());
                         } else {
                             e.replyEmbeds(ErrorCrafter.errorEmbedCrafterWithDescription(
                                     ":x: " + EDTMessages.NO_COUR_TO_DATE.getMessage())).setEphemeral(true)
                                     .queue((m) -> m.deleteOriginal().queueAfter(
                                             QueueAfterTimes.ERROR_TIME.getQueueAfterTime(), TimeUnit.SECONDS));
-                            Logger.getInstance().toLog(PluginName.EDT.getMessage(),
-                                    EDTMessages.NO_COUR_TO_DATE.getMessage() + " (`" + date + "`)", e.getGuild(),
-                                    e.getMember(), false);
+                            Sentry.getInstance().toLog(PluginName.EDT.getMessage(),
+                                    EDTMessages.NO_COUR_TO_DATE.getMessage() + " (`" + date + "`)", 
+                                    LogState.ERROR,
+                                    e.getMember(),
+                                    e.getGuild());
                         }
                     }
                 } else {
@@ -165,16 +180,15 @@ public class commandEDT extends ListenerAdapter {
 
                     if (cour != null) {
                         e.replyEmbeds(EDTCrafter.craftEDTCourEmbed(cour)).queue();
-                        Logger.getInstance().toLog(PluginName.EDT.getMessage(),
-                                EDTMessages.SHOW_COUR.getMessage() + " (`" + cour.getId() + "`)", e.getGuild(),
-                                e.getMember(), true);
+                        Sentry.getInstance().toLog(PluginName.EDT.getMessage(),
+                                EDTMessages.SHOW_COUR.getMessage() + " (`" + cour.getId() + "`)", LogState.SUCCESSFUL, e.getMember(), e.getGuild());
                     } else {
                         e.replyEmbeds(ErrorCrafter
                                 .errorEmbedCrafterWithDescription(":x: " + EDTMessages.NONE_COUR_WITH_ID.getMessage()))
                                 .setEphemeral(true).queue((m) -> m.deleteOriginal()
                                         .queueAfter(QueueAfterTimes.ERROR_TIME.getQueueAfterTime(), TimeUnit.SECONDS));
-                        Logger.getInstance().toLog(PluginName.EDT.getMessage(),
-                                EDTMessages.NONE_COUR_WITH_ID.getMessage(), e.getGuild(), e.getMember(), false);
+                        Sentry.getInstance().toLog(PluginName.EDT.getMessage(),
+                                EDTMessages.NONE_COUR_WITH_ID.getMessage(), LogState.ERROR, e.getMember(), e.getGuild());
                     }
                 }
 

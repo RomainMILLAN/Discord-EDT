@@ -45,6 +45,7 @@ public class App {
         if(App.configuration.getConfiguration("APP_DEBUGING").equalsIgnoreCase("true"))
             App.debugingState = true;
 
+
         App.guildId = App.configuration.getConfiguration("GUILD_ID");
 
         App.idSudo = App.configuration.getConfiguration("R_OP");

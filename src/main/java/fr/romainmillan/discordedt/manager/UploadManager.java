@@ -2,7 +2,6 @@ package fr.romainmillan.discordedt.manager;
 
 import fr.romainmillan.discordedt.App;
 import fr.romainmillan.discordedt.embedCrafter.UploadCrafter;
-import fr.romainmillan.discordedt.states.messages.application.UploadMessages;
 
 public class UploadManager {
 
@@ -10,7 +9,7 @@ public class UploadManager {
         if(!App.getConfiguration("APP_ENV").equals("PROD") && !App.getConfiguration("APP_ENV").equals("STAGING")){
             return;
         }
-
+        
         App.getJda().getGuildById(App.getConfiguration("GUILD_ID"))
                 .getTextChannelById(
                         App.getConfiguration("TC_SENTRY")
@@ -21,24 +20,14 @@ public class UploadManager {
                 )
                 .queue();
 
-        SignalApi.sendSignalPersonnalMessage(
-                String.format(
-                        UploadMessages.SIGNAL_CONNECTED.getMessage(),
-                        App.getJda().getSelfUser().getName()
-                )
-        );
+        DiscordWebhookApi.sendConnectedNotification();;
     }
     public static void sendDisconnectmessage() {
         if(!App.getConfiguration("APP_ENV").equals("PROD") && !App.getConfiguration("APP_ENV").equals("STAGING")){
             return;
         }
 
-        SignalApi.sendSignalPersonnalMessage(
-                String.format(
-                        UploadMessages.SIGNAL_DISCONNECTED.getMessage(),
-                        App.getJda().getSelfUser().getName()
-                )
-        );
+        DiscordWebhookApi.sendDisconnectedNotification();
     }
 
 }

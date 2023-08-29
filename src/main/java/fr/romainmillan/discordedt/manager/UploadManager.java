@@ -2,11 +2,12 @@ package fr.romainmillan.discordedt.manager;
 
 import fr.romainmillan.discordedt.App;
 import fr.romainmillan.discordedt.embedCrafter.UploadCrafter;
+import fr.romainmillan.discordedt.states.EnvironementState;
 
 public class UploadManager {
 
     public static void sendConnectedMessage() {
-        if(!App.getConfiguration("APP_ENV").equals("PROD") && !App.getConfiguration("APP_ENV").equals("STAGING")){
+        if(App.getEnvironementState() != EnvironementState.PRODUCTION){
             return;
         }
         
@@ -23,7 +24,7 @@ public class UploadManager {
         DiscordWebhookApi.sendConnectedNotification();;
     }
     public static void sendDisconnectmessage() {
-        if(!App.getConfiguration("APP_ENV").equals("PROD") && !App.getConfiguration("APP_ENV").equals("STAGING")){
+        if(App.getEnvironementState() != EnvironementState.PRODUCTION){
             return;
         }
 
